@@ -1,0 +1,89 @@
+:root {
+    --bg: #fafafa;
+    --text: #000000;
+    --primary: #0354a5;
+}
+[data-theme="dark"] {
+    --bg: #222;
+    --text: #fafafa;
+    --primary: #4f8cff;
+}
+body {
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.3s, color 0.3s;
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+}
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em 2em;
+    background: var(--primary);
+    color: #fff;
+}
+#theme-toggle {
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+section {
+    margin: 2em;
+}
+#trending-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1em;
+}
+.trending-item {
+    background: var(--primary);
+    color: #fff;
+    padding: 1em;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#music-player {
+    margin: 2em 0;
+    text-align: center;
+}
+.player-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap;
+    margin-top: 1em;
+}
+
+.player-controls button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.3em;
+    padding: 6px 10px;
+    border-radius: 8px;
+    color: var(--primary);
+    transition: background-color 0.25s ease;
+}
+
+.player-controls button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#playlist {
+    margin-top: 1em;
+    border-top: 1px solid #ccc;
+    padding-top: 0.5em;
+}
+#playlist-list {
+    list-style: none;
+    padding: 0;
+}
+#playlist-list li {
+    padding: 0.5em 0;
+}

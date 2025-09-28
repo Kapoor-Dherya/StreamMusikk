@@ -49,8 +49,8 @@ tracks.forEach(track => {
         <img src="${track.cover}" width="90" height="90"><br>
         <div>${track.name}</div>
         <div>${track.artist}</div><br>
-        <button onclick="playTrack(${track.id})"><i class="fa fa-play"></i>PLAY ▶</button><br>
-        <button onclick="addToPlaylist(${track.id})"><i class="fa fa-plus"></i>Add ➕ to Queue</button>
+        <button onclick="playTrack(${track.id})">PLAY ▶</button><br>
+        <button onclick="addToPlaylist(${track.id})">Add ➕ to Queue</button>
     `;
     trendingList.appendChild(item);
 });
@@ -89,9 +89,9 @@ function renderPlayer() {
         <div>${currentTrack.name}</div>
         <div>${currentTrack.artist}</div>
         <div class="player-controls">
-            <button onclick="prevTrack()"><i class="fa fa-step-backward"></i>⏮</button>
-            <button onclick="playPause()"><i class="fa fa-${audio.paused ? 'play' : 'pause'}"></i>⏯</button>
-            <button onclick="nextTrack()"><i class="fa fa-step-forward"></i>⏭</button>
+            <button onclick="prevTrack()">⏮</button>
+            <button onclick="playPause()">⏯</button>
+            <button onclick="nextTrack()">⏭</button>
         </div>
         <input type="range" min="0" max="100" value="0" id="progress-bar" style="width:60%">
 
@@ -137,8 +137,8 @@ function renderPlaylist() {
                 const t = tracks.find(tk => tk.id === pid);
                 return `<li>
                     ${t.name} - ${t.artist}
-                    <button onclick="playTrack(${t.id})"><i class="fa fa-play"></i>🎮</button>
-                    <button onclick="removeFromPlaylist(${t.id})"><i class="fa fa-times"></i>🗑️</button>
+                    <button onclick="playTrack(${t.id})">🎮</button>
+                    <button onclick="removeFromPlaylist(${t.id})">🗑️</button>
                 </li>`;
             }).join("")}
         </ul>
@@ -160,4 +160,5 @@ document.getElementById('theme-toggle').onclick = () => {
     mode = mode === 'light' ? 'dark' : 'light';
     html.setAttribute('data-theme', mode);
     document.getElementById('theme-toggle').textContent = mode === 'light' ? '🌙' : '☀️';
+
 };

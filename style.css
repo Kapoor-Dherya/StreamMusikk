@@ -88,3 +88,8 @@ section {
 #playlist-list li {
     padding: 0.5em 0;
 }
+#music-player {
+    transition: opacity 0.6s ease;
+    opacity: 1;
+}
+

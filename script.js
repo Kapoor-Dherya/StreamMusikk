@@ -40,7 +40,16 @@ const tracks = [
         url: "./Song/Die-With-A-Smile.mp3"
     }
 ];
-//Songs Section
+
+// Utility to format time in mm:ss
+function formatTime(seconds) {
+    if (isNaN(seconds)) return "0:00";
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+    return `${mins}:${secs}`;
+}
+
+// Songs Section
 const trendingList = document.getElementById('trending-list');
 tracks.forEach(track => {
     const item = document.createElement('div');
@@ -75,8 +84,22 @@ function playTrack(id) {
     if (!track) return;
     currentTrack = track;
     audio.src = track.url;
-    audio.play();
+    audio.play().catch(() => {}); // Handle autoplay issues
+    fadeInPlayer();
     renderPlayer();
+}
+
+function fadeInPlayer() {
+    playerDiv.style.opacity = 0;
+    let opacity = 0;
+    const interval = setInterval(() => {
+        opacity += 0.05;
+        if(opacity >= 1) {
+            opacity = 1;
+            clearInterval(interval);
+        }
+        playerDiv.style.opacity = opacity;
+    }, 30);
 }
 
 function renderPlayer() {
@@ -93,13 +116,17 @@ function renderPlayer() {
             <button onclick="playPause()">⏯</button>
             <button onclick="nextTrack()">⏭</button>
         </div>
-        <input type="range" min="0" max="100" value="0" id="progress-bar" style="width:60%">
-
+        <input type="range" min="0" max="100" value="0" id="progress-bar" style="width:60%"><br>
+        <span id="current-time">0:00</span> / <span id="duration">0:00</span>
     `;
 }
 
 function playPause() {
-    audio.paused ? audio.play() : audio.pause();
+    if(audio.paused) {
+        audio.play();
+    } else {
+        audio.pause();
+    }
     renderPlayer();
 }
 
@@ -117,8 +144,23 @@ function prevTrack() {
 
 audio.addEventListener('timeupdate', () => {
     const progress = document.getElementById('progress-bar');
+    const currentTimeSpan = document.getElementById('current-time');
     if (progress && audio.duration) {
         progress.value = (audio.currentTime / audio.duration) * 100;
+    }
+    if(currentTimeSpan) currentTimeSpan.textContent = formatTime(audio.currentTime);
+});
+
+audio.addEventListener('durationchange', () => {
+    const durationSpan = document.getElementById('duration');
+    if(durationSpan) durationSpan.textContent = formatTime(audio.duration);
+});
+
+// Seek song on progress bar change
+document.addEventListener('input', (e) => {
+    if(e.target && e.target.id === 'progress-bar' && audio.duration){
+        let seekTo = (e.target.value / 100) * audio.duration;
+        audio.currentTime = seekTo;
     }
 });
 
@@ -153,12 +195,11 @@ function removeFromPlaylist(id) {
 renderPlayer();
 renderPlaylist();
 
-//Theme
+// Theme toggle
 document.getElementById('theme-toggle').onclick = () => {
     const html = document.documentElement;
     let mode = html.getAttribute('data-theme');
     mode = mode === 'light' ? 'dark' : 'light';
     html.setAttribute('data-theme', mode);
     document.getElementById('theme-toggle').textContent = mode === 'light' ? '🌙' : '☀️';
-
 };
